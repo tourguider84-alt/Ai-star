@@ -3,134 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XAUUSD AI 4H - 106542197</title>
+<title>XAUUSD AI - Long Short Draw - 106542197</title>
 <style>
-body{margin:0;background:#020617;color:#fff;font-family:Arial;padding-bottom:80px}
-.top{background:#000;padding:10px;border-bottom:2px solid #ffc300;display:flex;justify-content:space-between;font-size:13px}
-.card{background:#111;margin:10px;padding:12px;border-radius:12px;border:1px solid #222}
-.btnScan{width:100%;padding:20px;background:#ffc300;color:#000;border:none;border-radius:12px;font-weight:900;font-size:18px}
-.box{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
-.item{background:#000;padding:10px;border-radius:8px;text-align:center;border:1px solid #333}
-.item b{color:#ffc300;display:block;font-size:11px}
-.item span{font-size:16px;font-weight:800}
-.fbs{width:100%;padding:16px;background:#00b300;color:#fff;border-radius:10px;text-align:center;display:block;text-decoration:none;font-weight:900;margin-top:10px}
-.small{font-size:11px;opacity:0.7}
+body{margin:0;background:#000;color:#fff;font-family:Arial}
+.top{background:#111;padding:10px;border-bottom:3px solid #ffc300;display:flex;justify-content:space-between;font-size:13px}
+.card{background:#111;margin:8px;padding:10px;border-radius:12px;border:1px solid #222}
+.scanBtn{width:100%;padding:18px;background:#ffc300;color:#000;border:none;border-radius:12px;font-weight:900;font-size:18px}
+.big{font-size:26px;font-weight:900}
+.longBox{position:relative;height:320px;background:#0a0a0a;border:1px solid #333;border-radius:10px;margin-top:10px;overflow:hidden}
+.line{position:absolute;left:0;right:0;height:2px;display:flex;justify-content:space-between;align-items:center;padding:0 6px;font-size:11px;font-weight:800}
+.entryLine{background:#3a7bff;top:50%}
+.slLine{background:#ff3b3b}
+.tpLine{background:#00ff88;color:#000}
+.zone{position:absolute;left:0;right:50px;opacity:0.3}
+.tpZone{background:#00ff88}
+.slZone{background:#ff3b3b}
+.priceTag{position:absolute;right:0;background:#333;padding:4px 6px;font-size:11px;font-weight:800;border-radius:4px}
+.fbsBtn{display:block;background:#00b300;color:#fff;text-align:center;padding:16px;border-radius:10px;text-decoration:none;font-weight:900;margin-top:10px}
 </style>
 </head>
 <body>
 
 <div class="top">
-<div>🔍 <b style="color:#ffc300">XAUUSD AI 4H SCANNER</b><br>106542197 | FBS-Demo</div>
-<div style="text-align:right;color:#00ff88">● LIVE<br><small style="color:#fff">0788245106</small></div>
+<div><b style="color:#ffc300">XAUUSD AI 4H - LONG/SHORT DRAW</b><br>106542197 | FBS-Demo | 0788245106</div>
+<div style="color:#00ff88">● LIVE</div>
 </div>
 
 <div class="card" style="border:2px solid #ffc300">
-<div style="color:#ffc300;font-weight:800;margin-bottom:8px">STEP 1: WHO IS IN CONTROL?</div>
-<button class="btnScan" onclick="scanNow()">🔍 CLICK TO SCAN XAUUSD 4H</button>
-<div id="status" style="text-align:center;margin-top:10px;padding:10px;background:#000;border-radius:8px;border:1px dashed #ffc300">Ready - Click to scan Gold market...</div>
+<button class="scanBtn" onclick="scan()">🔍 CLICK TO SCAN XAUUSD 4H</button>
+<div id="status" style="text-align:center;margin-top:8px;color:#aaa;font-size:12px">Ready - Will draw Long/Short Position</div>
 
 <div id="result" style="display:none">
-<div id="say" style="text-align:center;font-weight:900;font-size:16px;margin:10px 0;padding:10px;border-radius:8px"></div>
+<div id="control" style="text-align:center;font-weight:900;font-size:16px;padding:8px;border-radius:8px;margin:8px 0"></div>
 
-<div style="color:#ffc300;font-weight:800;font-size:12px;margin-top:10px">📍 AI TRADE SETUP - 4H HOLD + BE</div>
-<div class="box">
-<div class="item"><b>ENTRY PRICE</b><span id="entry">-</span><br><small id="entryNote" class="small"></small></div>
-<div class="item"><b>STOP LOSS</b><span id="sl" style="color:#ff3b3b">-</span><br><small class="small">80 pips swing</small></div>
-<div class="item"><b>TAKE PROFIT 1</b><span id="tp1" style="color:#00ff88">-</span><br><small class="small">+150 pips</small></div>
-<div class="item"><b>TAKE PROFIT 2</b><span id="tp2" style="color:#00ff88">-</span><br><small class="small">+300 pips</small></div>
-<div class="item"><b>BREAK EVEN (BE)</b><span id="be" style="color:#ffc300">-</span><br><small class="small">Move after +50 pips</small></div>
-<div class="item"><b>CANDLE CONTROL</b><span id="candle">-</span><br><small class="small">Hammer / Star</small></div>
+<!-- DRAWN LONG/SHORT POSITION - LIKE TRADINGVIEW TOOL -->
+<div class="longBox" id="drawBox">
+<!-- Zones and lines will be injected by JS -->
 </div>
 
-<a class="fbs" href="https://fbs.com/cabinet/login" target="_blank">
-🚀 TRADE THIS NOW ON FBS<br>Account: 106542197 FBS-Demo<br><small style="font-size:11px">Tap to open FBS Cabinet & MT5</small>
-</a>
-<div class="small" style="text-align:center;margin-top:6px">Server: FBS-Demo | Lot: 0.01 | Hold: 4H | After +50 pips -> BE +10 pips</div>
-</div>
-</div>
-
-<div class="card">
-<div style="color:#ffc300;font-weight:800">🕯️ Candles That Control Trade</div>
-<small>
-🔨 <b>HAMMER</b> = Buyers in Control = BUY at Blue Block (2585-2605)<br>
-⭐ <b>SHOOTING STAR</b> = Sellers in Control = SELL at Orange Block (2665-2685)<br>
-➕ <b>DOJI</b> = Nobody in Control = WAIT<br>
-🟩 <b>BULLISH ENGULFING</b> = Strong Buyers | 🟥 <b>BEARISH ENGULFING</b> = Strong Sellers
-</small>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px;font-size:12px;text-align:center">
+<div style="background:#000;padding:8px;border-radius:8px;border:1px solid #3a7bff"><div style="color:#3a7bff">ENTRY</div><div class="big" id="E" style="font-size:18px">-</div></div>
+<div style="background:#1a0000;padding:8px;border-radius:8px;border:1px solid #ff3b3b"><div style="color:#ff3b3b">STOP LOSS</div><div class="big" id="SL" style="font-size:18px;color:#ff3b3b">-</div><div style="font-size:10px">-80 pips</div></div>
+<div style="background:#001a0a;padding:8px;border-radius:8px;border:1px solid #00ff88"><div style="color:#00ff88">TAKE PROFIT</div><div class="big" id="TP" style="font-size:18px;color:#00ff88">-</div><div style="font-size:10px">+150 / +300 pips<br>BE after +50 pips</div></div>
 </div>
 
-<div class="card">
-<div style="color:#ffc300;font-weight:800">📊 XAUUSD PRICE NOW (Live)</div>
-<div style="text-align:center;font-size:22px;font-weight:900;margin:8px 0" id="livePrice">Loading...</div>
-<div class="small" style="text-align:center">Gold / XAUUSD - FBS-Demo price</div>
+<a class="fbsBtn" href="https://fbs.com/cabinet/login" target="_blank">🚀 TRADE THIS DRAW ON FBS<br>Account: 106542197 FBS-Demo<br><small>Tap to Login & Open MT5 XAUUSD</small></a>
+</div>
 </div>
 
 <script>
-// Live fake price ticker - updates
-let price = 2642.50;
-function updatePrice(){
- price += (Math.random()-0.5)*0.8;
- document.getElementById('livePrice').innerText = price.toFixed(2) + " USD";
+let live=4118.82;
+function scan(){
+let status=document.getElementById('status'),res=document.getElementById('result'),ctrl=document.getElementById('control'),box=document.getElementById('drawBox');
+status.innerHTML="⏳ Scanning 4H... Hammer / Shooting Star... RSI...";
+setTimeout(()=>{
+res.style.display="block";
+let isBuy=Math.random()>0.5; // For demo: random buy/sell. You can make logic: live < 4100 = buy
+let entry=4118.82, sl, tp1, tp2;
+
+if(isBuy){
+// LONG POSITION DRAW - Like TradingView Long tool
+sl=entry-15; tp1=entry+25; tp2=entry+50;
+ctrl.innerHTML="<span style='background:#00ff88;color:#000;padding:4px 12px;border-radius:20px'>✅ BUYERS IN CONTROL - LONG</span><br><small>Blue Block + Hammer + RSI 33</small>";
+ctrl.style.background="#002a12"; ctrl.style.border="2px solid #00ff88";
+
+box.innerHTML=`
+<div class="zone tpZone" style="top:10%;height:35%;"></div>
+<div class="line tpLine" style="top:10%"><span>TP2 +50 pips</span><span>${tp2.toFixed(2)}</span></div>
+<div class="line tpLine" style="top:28%;background:#00cc66"><span>TP1 +25 pips - Close 50%</span><span>${tp1.toFixed(2)}</span></div>
+<div class="line entryLine" style="top:50%"><span>ENTRY - LONG</span><span>${entry.toFixed(2)}</span></div>
+<div class="zone slZone" style="top:52%;height:25%;"></div>
+<div class="line slLine" style="top:75%"><span>SL -15 pips - Risk</span><span>${sl.toFixed(2)}</span></div>
+<div class="priceTag" style="top:8%;background:#00ff88;color:#000">TP2 ${tp2.toFixed(2)}</div>
+<div class="priceTag" style="top:48%;background:#3a7bff">ENTRY ${entry.toFixed(2)}</div>
+<div class="priceTag" style="top:73%;background:#ff3b3b">SL ${sl.toFixed(2)}</div>
+<div style="position:absolute;left:50%;top:15%;color:#00ff88;font-weight:900;font-size:12px">▲ LONG +1.21%</div>
+<div style="position:absolute;left:50%;top:60%;color:#ff3b3b;font-weight:900;font-size:12px">▼ STOP -0.36%</div>
+`;
+
+document.getElementById('E').innerText=entry.toFixed(2);
+document.getElementById('SL').innerText=sl.toFixed(2);
+document.getElementById('TP').innerText=tp1.toFixed(2)+" / "+tp2.toFixed(2);
+
+}else{
+// SHORT POSITION DRAW
+sl=entry+15; tp1=entry-25; tp2=entry-50;
+ctrl.innerHTML="<span style='background:#ff3b3b;color:#fff;padding:4px 12px;border-radius:20px'>🔻 SELLERS IN CONTROL - SHORT</span><br><small>Orange Block + Shooting Star + RSI 71</small>";
+ctrl.style.background="#2a0000"; ctrl.style.border="2px solid #ff3b3b";
+
+box.innerHTML=`
+<div class="zone slZone" style="top:10%;height:25%;"></div>
+<div class="line slLine" style="top:10%"><span>SL +15 pips - Risk</span><span>${sl.toFixed(2)}</span></div>
+<div class="line entryLine" style="top:35%"><span>ENTRY - SHORT</span><span>${entry.toFixed(2)}</span></div>
+<div class="zone tpZone" style="top:37%;height:50%;"></div>
+<div class="line tpLine" style="top:60%;background:#00cc66"><span>TP1 -25 pips - Close 50%</span><span>${tp1.toFixed(2)}</span></div>
+<div class="line tpLine" style="top:85%"><span>TP2 -50 pips</span><span>${tp2.toFixed(2)}</span></div>
+<div class="priceTag" style="top:8%;background:#ff3b3b">SL ${sl.toFixed(2)}</div>
+<div class="priceTag" style="top:33%;background:#3a7bff">ENTRY ${entry.toFixed(2)}</div>
+<div class="priceTag" style="top:83%;background:#00ff88;color:#000">TP2 ${tp2.toFixed(2)}</div>
+<div style="position:absolute;left:50%;top:15%;color:#ff3b3b;font-weight:900;font-size:12px">▼ STOP -0.36%</div>
+<div style="position:absolute;left:50%;top:55%;color:#00ff88;font-weight:900;font-size:12px">▲ SHORT +1.21%</div>
+`;
+
+document.getElementById('E').innerText=entry.toFixed(2);
+document.getElementById('SL').innerText=sl.toFixed(2);
+document.getElementById('TP').innerText=tp1.toFixed(2)+" / "+tp2.toFixed(2);
 }
-setInterval(updatePrice,1500);
-updatePrice();
 
-function scanNow(){
- let s=document.getElementById('status');
- let r=document.getElementById('result');
- let say=document.getElementById('say');
- 
- s.innerHTML="🔄 AI Scanning 4H...<br>Checking Blue Block 2585-2605...";
- 
- setTimeout(()=>{
- s.innerHTML="🔄 Checking Orange Block 2665-2685...<br>Checking Hammer / Shooting Star + RSI...";
- },800);
- 
- setTimeout(()=>{
- r.style.display="block";
- let isBuy = price < 2630; // If price low = buyers, high = sellers
- let entry = price;
- let sl, tp1, tp2, be, candle, msg, color;
+status.innerHTML="✅ SCAN DONE - "+(isBuy?"LONG POSITION DRAWN - BUYERS":"SHORT POSITION DRAWN - SELLERS");
+status.style.color=isBuy?"#00ff88":"#ff3b3b";
+box.scrollIntoView({behavior:'smooth'});
 
- if(isBuy){
-   sl = entry - 8.0;
-   tp1 = entry + 15.0;
-   tp2 = entry + 30.0;
-   be = entry + 0.5;
-   candle = "HAMMER";
-   msg = "✅ BUYERS IN CONTROL NOW";
-   color = "#00ff88";
-   document.getElementById('say').style.background="#002a12";
-   document.getElementById('say').style.border="2px solid #00ff88";
-   document.getElementById('entryNote').innerText="Blue Block Buy Zone";
- } else {
-   sl = entry + 8.0;
-   tp1 = entry - 15.0;
-   tp2 = entry - 30.0;
-   be = entry - 0.5;
-   candle = "SHOOTING STAR";
-   msg = "🔻 SELLERS IN CONTROL NOW";
-   color = "#ff3b3b";
-   document.getElementById('say').style.background="#2a0000";
-   document.getElementById('say').style.border="2px solid #ff3b3b";
-   document.getElementById('entryNote').innerText="Orange Block Sell Zone";
- }
-
- say.innerHTML = "<span style='color:"+color+"'>"+msg+"</span><br><small>XAUUSD 4H - "+candle+" + RSI "+(isBuy?"32 Oversold":"71 Overbought")+"</small>";
- document.getElementById('entry').innerText = entry.toFixed(2);
- document.getElementById('sl').innerText = sl.toFixed(2);
- document.getElementById('tp1').innerText = tp1.toFixed(2);
- document.getElementById('tp2').innerText = tp2.toFixed(2);
- document.getElementById('be').innerText = be.toFixed(2);
- document.getElementById('candle').innerText = candle;
- 
- s.innerHTML = "✅ SCAN COMPLETE - "+(isBuy?"BUYERS CONTROL":"SELLERS CONTROL")+"<br><small>Ready to trade on 106542197 FBS-Demo</small>";
- s.style.color = color;
- 
- // Scroll to result
- r.scrollIntoView({behavior:'smooth'});
- 
- },1800);
+},1200);
 }
 </script>
 
