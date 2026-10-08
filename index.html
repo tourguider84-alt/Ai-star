@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual Trading Pro - BTC 85,644 Robot + All Volatility | 0788245106</title>
+<script src="https://s3.tradingview.com/tv.js"></script>
+<style>
+*{box-sizing:border-box;font-family:Arial}body{margin:0;background:#020617;color:#fff}
+.bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(120deg,#020617,#1e1b4b,#0a1931);background-size:300% 300%;animation:bg 8s infinite}
+@keyframes bg{0%,100%{background-position:0%}50%{background-position:100%}}
+.h{padding:12px;background:rgba(0,0,0,0.7);display:flex;justify-content:space-between;position:sticky;top:0;z-index:9;border-bottom:1px solid #ffc300}
+.wrap{max-width:1100px;margin:auto;padding:10px}.card{background:rgba(255,255,255,0.06);border:1px solid #222;border-radius:16px;padding:14px;margin:10px 0}
+.vols{display:flex;gap:6px;overflow-x:auto;padding:8px}.vols button{white-space:nowrap;padding:8px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#fff;font-size:11px}
+.vols button.active{background:#ffc300;color:#000}.tbtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.tbtns button{padding:14px;border:none;border-radius:8px;font-weight:800}.rise{background:#00ff88;color:#000}.fall{background:#ff3b3b;color:#fff}.even{background:#5b5bff;color:#fff}.odd{background:#ff8a00;color:#fff}
+.price{position:absolute;right:0;top:0;width:70px;background:rgba(0,0,0,0.8);font-size:11px;z-index:5}.price div{padding:3px;text-align:center;margin:1px 0;font-weight:bold}
+.b{background:#ffcc00}.r{background:#b91c1c;color:#fff}.g{background:#444;color:#fff}.y{background:#22c55e}
+.chartH{position:relative;height:500px;background:#000;border-radius:12px;overflow:hidden}
+.btnMain{width:100%;padding:15px;background:#ffc300;color:#000;border:none;border-radius:10px;font-weight:800;margin:8px 0}
+.btnWA{display:block;text-align:center;background:#25D366;color:#fff;padding:12px;border-radius:50px;text-decoration:none;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pbox{background:#fff;color:#000;border-radius:12px;padding:12px;text-align:center}
+.float{position:fixed;bottom:15px;right:15px;background:#25D366;color:#fff;padding:12px 18px;border-radius:50px;text-decoration:none;font-weight:800;z-index:999}
+code{background:#111;color:#0f0;padding:10px;display:block;overflow-x:auto;border-radius:8px;font-size:11px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="h"><div>₿ BTC <span style="color:#ff3b3b">85,644 -0.13%</span> • SELLERS CONTROL NOW</div><div style="color:#ffc300">0788245106</div></div>
+<div class="wrap">
+
+<!-- VOLATILITY SELECTOR -->
+<div class="card"><div style="font-weight:800;margin-bottom:6px;color:#ffc300">ALL VOLATILITIES - Choose</div><div class="vols" id="vols"></div>
+<div class="chartH"><div id="tv" style="height:100%;width:100%"></div>
+<div class="price"><div class="g">86,867</div><div class="b">86,856</div><div style="background:#1e40ff;color:#fff">86,792</div><div class="r">86,666</div><div class="g">86,134</div><div style="background:#ff8a00">86,125</div><div style="background:#fff;color:#000">86,120</div><div class="r">85,862</div><div class="r">85,706</div><div class="b">85,644</div><div class="g">85,434</div><div class="b">85,029</div><div class="g">84,869</div><div class="y">84,500</div></div>
+</div>
+<div class="tbtns" style="margin-top:8px"><button class="rise" onclick="go()">📈 RISE</button><button class="fall" onclick="go()">📉 FALL</button><button class="even" onclick="go()">EVEN</button><button class="odd" onclick="go()">ODD</button><button style="background:#111;color:#fff;border:1px solid #333" onclick="go()">OVER</button><button style="background:#111;color:#fff;border:1px solid #333" onclick="go()">UNDER</button></div>
+</div>
+
+<!-- CANDLES THAT CONTROL TRADE -->
+<div class="card">
+<div style="font-weight:800;color:#ffc300">Candles That Control The Trade - For Your Chart</div>
+<div class="grid2" style="font-size:12px;margin-top:8px">
+<div class="pbox" style="background:#0f1a0f"><b>🔨 HAMMER</b><br>Buyers Control - RISE<br>Long lower wick at blue block</div>
+<div class="pbox" style="background:#1a0f0f"><b>⭐ SHOOTING STAR</b><br>Sellers Control - FALL<br>Long upper wick at orange block</div>
+<div class="pbox" style="background:#0f1a0f"><b>🟩 BULLISH ENGULFING</b><br>Strong Buyers - STRONG RISE</div>
+<div class="pbox" style="background:#1a0f0f"><b>🟥 BEARISH ENGULFING</b><br>Strong Sellers - STRONG FALL</div>
+<div class="pbox"><b>➕ DOJI (Your last candle at 85,706)</b><br>Nobody Control - WAIT or EVEN/ODD</div>
+<div class="pbox"><b>📌 PIN BAR</b><br>Reversal at Order Block - SWING</div>
+</div>
+<p style="font-size:11px;opacity:0.6">Your current candle 85,706 = DOJI = Indecision, sellers winning short-term until 85,029 holds</p>
+</div>
+
+<!-- SWING ROBOT FOR FBS-DEMO 106542197 -->
+<div class="card" style="border:2px solid #ffc300">
+<div style="font-weight:800;font-size:18px;color:#ffc300">🤖 Swing Trading Robot - FBS-Demo 106542197</div>
+<p style="font-size:12px">This robot trades your blue/orange blocks automatically on
