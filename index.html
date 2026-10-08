@@ -1,56 +1,132 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Manual Trading Pro - BTC 85,644 Robot + All Volatility | 0788245106</title>
-<script src="https://s3.tradingview.com/tv.js"></script>
-<style>
-*{box-sizing:border-box;font-family:Arial}body{margin:0;background:#020617;color:#fff}
-.bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(120deg,#020617,#1e1b4b,#0a1931);background-size:300% 300%;animation:bg 8s infinite}
-@keyframes bg{0%,100%{background-position:0%}50%{background-position:100%}}
-.h{padding:12px;background:rgba(0,0,0,0.7);display:flex;justify-content:space-between;position:sticky;top:0;z-index:9;border-bottom:1px solid #ffc300}
-.wrap{max-width:1100px;margin:auto;padding:10px}.card{background:rgba(255,255,255,0.06);border:1px solid #222;border-radius:16px;padding:14px;margin:10px 0}
-.vols{display:flex;gap:6px;overflow-x:auto;padding:8px}.vols button{white-space:nowrap;padding:8px 12px;border-radius:8px;border:1px solid #333;background:#111;color:#fff;font-size:11px}
-.vols button.active{background:#ffc300;color:#000}.tbtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-.tbtns button{padding:14px;border:none;border-radius:8px;font-weight:800}.rise{background:#00ff88;color:#000}.fall{background:#ff3b3b;color:#fff}.even{background:#5b5bff;color:#fff}.odd{background:#ff8a00;color:#fff}
-.price{position:absolute;right:0;top:0;width:70px;background:rgba(0,0,0,0.8);font-size:11px;z-index:5}.price div{padding:3px;text-align:center;margin:1px 0;font-weight:bold}
-.b{background:#ffcc00}.r{background:#b91c1c;color:#fff}.g{background:#444;color:#fff}.y{background:#22c55e}
-.chartH{position:relative;height:500px;background:#000;border-radius:12px;overflow:hidden}
-.btnMain{width:100%;padding:15px;background:#ffc300;color:#000;border:none;border-radius:10px;font-weight:800;margin:8px 0}
-.btnWA{display:block;text-align:center;background:#25D366;color:#fff;padding:12px;border-radius:50px;text-decoration:none;font-weight:700}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pbox{background:#fff;color:#000;border-radius:12px;padding:12px;text-align:center}
-.float{position:fixed;bottom:15px;right:15px;background:#25D366;color:#fff;padding:12px 18px;border-radius:50px;text-decoration:none;font-weight:800;z-index:999}
-code{background:#111;color:#0f0;padding:10px;display:block;overflow-x:auto;border-radius:8px;font-size:11px;white-space:pre-wrap}
-</style>
-</head>
-<body>
-<div class="bg"></div>
-<div class="h"><div>₿ BTC <span style="color:#ff3b3b">85,644 -0.13%</span> • SELLERS CONTROL NOW</div><div style="color:#ffc300">0788245106</div></div>
-<div class="wrap">
+//+------------------------------------------------------------------+
+//| XAUUSD AI Scanner 4H - FBS-Demo 106542197 |
+//| AI Scans Market, Holds Swing 4H, Moves to BE + Trailing |
+//| Forex Only: XAUUSD - Based on your 85,644 Order Block style |
+//+------------------------------------------------------------------+
+#property strict
+#property description "AI scans XAUUSD 4H - Hammer/ShootingStar + Order Block + RSI"
 
-<!-- VOLATILITY SELECTOR -->
-<div class="card"><div style="font-weight:800;margin-bottom:6px;color:#ffc300">ALL VOLATILITIES - Choose</div><div class="vols" id="vols"></div>
-<div class="chartH"><div id="tv" style="height:100%;width:100%"></div>
-<div class="price"><div class="g">86,867</div><div class="b">86,856</div><div style="background:#1e40ff;color:#fff">86,792</div><div class="r">86,666</div><div class="g">86,134</div><div style="background:#ff8a00">86,125</div><div style="background:#fff;color:#000">86,120</div><div class="r">85,862</div><div class="r">85,706</div><div class="b">85,644</div><div class="g">85,434</div><div class="b">85,029</div><div class="g">84,869</div><div class="y">84,500</div></div>
-</div>
-<div class="tbtns" style="margin-top:8px"><button class="rise" onclick="go()">📈 RISE</button><button class="fall" onclick="go()">📉 FALL</button><button class="even" onclick="go()">EVEN</button><button class="odd" onclick="go()">ODD</button><button style="background:#111;color:#fff;border:1px solid #333" onclick="go()">OVER</button><button style="background:#111;color:#fff;border:1px solid #333" onclick="go()">UNDER</button></div>
-</div>
+input string InpSymbol = "XAUUSD"; // Forex Only - Gold
+input ENUM_TIMEFRAMES InpTF = PERIOD_H4; // You hold TMF BE 4HR
+input double LotSize = 0.01; // For FBS Demo 106542197
+input int MagicNumber = 106542197;
 
-<!-- CANDLES THAT CONTROL TRADE -->
-<div class="card">
-<div style="font-weight:800;color:#ffc300">Candles That Control The Trade - For Your Chart</div>
-<div class="grid2" style="font-size:12px;margin-top:8px">
-<div class="pbox" style="background:#0f1a0f"><b>🔨 HAMMER</b><br>Buyers Control - RISE<br>Long lower wick at blue block</div>
-<div class="pbox" style="background:#1a0f0f"><b>⭐ SHOOTING STAR</b><br>Sellers Control - FALL<br>Long upper wick at orange block</div>
-<div class="pbox" style="background:#0f1a0f"><b>🟩 BULLISH ENGULFING</b><br>Strong Buyers - STRONG RISE</div>
-<div class="pbox" style="background:#1a0f0f"><b>🟥 BEARISH ENGULFING</b><br>Strong Sellers - STRONG FALL</div>
-<div class="pbox"><b>➕ DOJI (Your last candle at 85,706)</b><br>Nobody Control - WAIT or EVEN/ODD</div>
-<div class="pbox"><b>📌 PIN BAR</b><br>Reversal at Order Block - SWING</div>
-</div>
-<p style="font-size:11px;opacity:0.6">Your current candle 85,706 = DOJI = Indecision, sellers winning short-term until 85,029 holds</p>
-</div>
+input int RSIPeriod = 14;
+input int RSI_OB = 70;
+input int RSI_OS = 30;
 
-<!-- SWING ROBOT FOR FBS-DEMO 106542197 -->
-<div class="card" style="border:2px solid #ffc300">
-<div style="font-weight:800;font-size:18px;color:#ffc300">🤖 Swing Trading Robot - FBS-Demo 106542197</div>
-<p style="font-size:12px">This robot trades your blue/orange blocks automatically on
+input double BuyZone_High = 2605.00; // Update to your current Blue Block for Gold
+input double BuyZone_Low = 2585.00;
+input double SellZone_High= 2685.00; // Update to your current Orange Block for Gold
+input double SellZone_Low = 2665.00;
+
+input int StopLoss_Points = 1000; // 100 pips for XAUUSD swing
+input int TakeProfit_Points = 2000; // 200 pips
+input int BE_Trigger_Points = 500; // Move to Break Even after +50 pips
+input int BE_Plus_Points = 100; // BE + 10 pips profit
+input int Trailing_Points = 300; // Trail after BE
+
+int rsi_handle;
+int ma_handle;
+
+//+------------------------------------------------------------------+
+int OnInit(){
+  if(_Symbol!= "XAUUSD" && _Symbol!= "GOLD" && StringFind(_Symbol,"XAU")<0){
+    Print("This AI is for XAUUSD only! Current: ",_Symbol);
+  }
+  rsi_handle = iRSI(InpSymbol, InpTF, RSIPeriod, PRICE_CLOSE);
+  ma_handle = iMA(InpSymbol, InpTF, 50, 0, MODE_EMA, PRICE_CLOSE);
+  Print("XAUUSD AI Scanner 4H Started - FBS-Demo 106542197 - Scanning ",InpSymbol," ",EnumToString(InpTF));
+  return(INIT_SUCCEEDED);
+}
+
+// Candle Pattern AI
+bool IsHammer_XAU(int shift){
+  double o=iOpen(InpSymbol,InpTF,shift), c=iClose(InpSymbol,InpTF,shift);
+  double h=iHigh(InpSymbol,InpTF,shift), l=iLow(InpSymbol,InpTF,shift);
+  double body=MathAbs(c-o); if(body==0) body=1;
+  double lower=MathMin(o,c)-l, upper=h-MathMax(o,c);
+  return(lower > body*2.0 && upper < body*0.6 && c>o);
+}
+bool IsShootingStar_XAU(int shift){
+  double o=iOpen(InpSymbol,InpTF,shift), c=iClose(InpSymbol,InpTF,shift);
+  double h=iHigh(InpSymbol,InpTF,shift), l=iLow(InpSymbol,InpTF,shift);
+  double body=MathAbs(c-o); if(body==0) body=1;
+  double lower=MathMin(o,c)-l, upper=h-MathMax(o,c);
+  return(upper > body*2.0 && lower < body*0.6 && c<o);
+}
+bool IsBullishEngulfing(){
+  double o1=iOpen(InpSymbol,InpTF,1), c1=iClose(InpSymbol,InpTF,1);
+  double o2=iOpen(InpSymbol,InpTF,2), c2=iClose(InpSymbol,InpTF,2);
+  return(c2<o2 && c1>o1 && c1>o2 && o1<c2); // Big green eats small red
+}
+bool IsBearishEngulfing(){
+  double o1=iOpen(InpSymbol,InpTF,1), c1=iClose(InpSymbol,InpTF,1);
+  double o2=iOpen(InpSymbol,InpTF,2), c2=iClose(InpSymbol,InpTF,2);
+  return(c2>o2 && c1<o1 && c1<o2 && o1>c2);
+}
+
+//+------------------------------------------------------------------+
+void OnTick(){
+  // AI Manage existing trade - BE + Trail
+  Manage_BE_Trail();
+  if(PositionsTotal()>=1) return; // Hold one swing only - you hold 4H
+
+  double price = iClose(InpSymbol, InpTF, 1);
+  double rsi_buf[]; CopyBuffer(rsi_handle,0,1,1,rsi_buf); double rsi=rsi_buf[0];
+  double ma_buf[]; CopyBuffer(ma_handle,0,1,1,ma_buf); double ema50=ma_buf[0];
+
+  // AI SCAN LOGIC - Like your screenshot 85,644
+  bool buyers_control = false, sellers_control = false;
+  string reason="";
+
+  // BUYERS CONTROL SCAN (For RISE Swing)
+  if( (price>=BuyZone_Low && price<=BuyZone_High) && (IsHammer_XAU(1) || IsBullishEngulfing()) && rsi<35 && price>ema50 ){
+    buyers_control=true; reason="AI SCAN: Buyers Control - Blue Block + Hammer + RSI "+DoubleToString(rsi,1);
+  }
+  // SELLERS CONTROL SCAN (For FALL Swing)
+  if( (price>=SellZone_Low && price<=SellZone_High) && (IsShootingStar_XAU(1) || IsBearishEngulfing()) && rsi>65 && price<ema50 ){
+    sellers_control=true; reason="AI SCAN: Sellers Control - Orange Block + Shooting Star + RSI "+DoubleToString(rsi,1);
+  }
+
+  if(buyers_control){
+    double ask=SymbolInfoDouble(InpSymbol,SYMBOL_ASK);
+    double sl=ask-StopLoss_Points*_Point*10;
+    double tp=ask+TakeProfit_Points*_Point*10;
+    OpenTrade(ORDER_TYPE_BUY, ask, sl, tp, reason);
+  }
+  if(sellers_control){
+    double bid=SymbolInfoDouble(InpSymbol,SYMBOL_BID);
+    double sl=bid+StopLoss_Points*_Point*10;
+    double tp=bid-TakeProfit_Points*_Point*10;
+    OpenTrade(ORDER_TYPE_SELL, bid, sl, tp, reason);
+  }
+}
+
+//+------------------------------------------------------------------+
+void Manage_BE_Trail(){
+  for(int i=PositionsTotal()-1;i>=0;i--){
+    ulong ticket=PositionGetTicket(i);
+    if(!PositionSelectByTicket(ticket)) continue;
+    if(PositionGetInteger(POSITION_MAGIC)!=MagicNumber) continue;
+
+    double open_price=PositionGetDouble(POSITION_PRICE_OPEN);
+    double curr_sl=PositionGetDouble(POSITION_SL);
+    double price_current=PositionGetDouble(POSITION_PRICE_CURRENT);
+    ENUM_POSITION_TYPE type=(ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
+
+    // Move to BE
+    if(type==POSITION_TYPE_BUY){
+      if(price_current >= open_price + BE_Trigger_Points*_Point*10){
+        double new_sl = open_price + BE_Plus_Points*_Point*10;
+        if(curr_sl < new_sl || curr_sl==0) ModifySL(ticket,new_sl);
+      }
+      // Trailing
+      if(price_current >= open_price + (BE_Trigger_Points+Trailing_Points)*_Point*10){
+        double new_sl = price_current - Trailing_Points*_Point*10;
+        if(new_sl > curr_sl) ModifySL(ticket,new_sl);
+      }
+    }
+    if(type==POSITION_TYPE_SELL){
+      if(price_current <= open_price - BE_Trigger_Points*_Point*10){
+        double new_sl = open_price - BE_Plus_Points
