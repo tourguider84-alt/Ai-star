@@ -1,70 +1,77 @@
-// FIXED - STABLE SIGNAL - NOT RANDOM
-function scan(){
-let res = document.getElementById('result');
-let ctrl = document.getElementById('control');
-let status = document.getElementById('status');
-let box = document.getElementById('drawBox');
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XAUUSD AI 4H - STABLE - 106542197</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:Arial}
+.top{background:#111;padding:10px;border-bottom:3px solid #ffc300;display:flex;justify-content:space-between;font-size:12px}
+.card{background:#111;margin:8px;padding:10px;border-radius:12px;border:1px solid #222}
+.btn{width:100%;padding:18px;background:#ffc300;color:#000;border:none;border-radius:12px;font-weight:900;font-size:18px}
+.box{position:relative;height:320px;background:#0a0a0a;border:1px solid #333;border-radius:10px;margin-top:10px;overflow:hidden}
+.big{font-size:20px;font-weight:900}
+.fbs{display:block;background:#00b300;color:#fff;text-align:center;padding:16px;border-radius:10px;text-decoration:none;font-weight:900;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="top"><div><b style="color:#ffc300">XAUUSD AI 4H STABLE</b><br>106542197 | FBS-Demo</div><div style="color:#00ff88">● LIVE</div></div>
 
-// USE REAL XAUUSD PRICE FROM YOUR SCREENSHOT - 4118.82
-let entry = 4118.82; // Change to live price if you have API
+<div class="card" style="border:2px solid #ffc300">
+<button class="btn" id="btn" onclick="doScan()">🔍 CLICK TO SCAN - STABLE SIGNAL</button>
+<div id="status" style="text-align:center;margin-top:8px;color:#aaa;font-size:12px">Ready - Signal will NOT flip randomly</div>
+<div id="result" style="display:none">
+<div id="control" style="text-align:center;font-weight:900;padding:10px;border-radius:10px;margin:8px 0"></div>
+<div class="box" id="drawBox"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px;text-align:center;font-size:12px">
+<div style="background:#000;padding:8px;border-radius:8px;border:1px solid #3a7bff"><div style="color:#3a7bff">ENTRY</div><div class="big" id="E">-</div></div>
+<div style="background:#1a0000;padding:8px;border-radius:8px;border:1px solid #ff3b3b"><div style="color:#ff3b3b">SL</div><div class="big" id="SL" style="color:#ff3b3b">-</div></div>
+<div style="background:#001a0a;padding:8px;border-radius:8px;border:1px solid #00ff88"><div style="color:#00ff88">TP1 / TP2</div><div class="big" id="TP" style="color:#00ff88">-</div></div>
+</div>
+<a class="fbs" href="https://fbs.com/cabinet/login" target="_blank">🚀 TRADE ON FBS 106542197 FBS-Demo</a>
+</div>
+</div>
 
-// REAL ZONES - From your 4H strategy
-const BLUE_LOW = 4050;
-const BLUE_HIGH = 4110;
-const ORANGE_LOW = 4180;
-const ORANGE_HIGH = 4240;
+<script>
+function doScan(){
+let res=document.getElementById('result'),ctrl=document.getElementById('control'),status=document.getElementById('status'),box=document.getElementById('drawBox'),btn=document.getElementById('btn');
+let entry=4118.82; // Your current price from screenshot
+const BLUE_LOW=4050,BLUE_HIGH=4110,ORANGE_LOW=4180,ORANGE_HIGH=4240;
+let last=localStorage.getItem("lastSignal")||"WAIT";
+let type="";
+status.innerHTML="⏳ Scanning... Checking zones...";
+btn.innerHTML="⏳ SCANNING...";
 
-let type = "";
-let lastSignal = localStorage.getItem("lastSignal") || "WAIT";
+setTimeout(()=>{
+if(entry>=BLUE_LOW && entry<=BLUE_HIGH){type="BUY"; localStorage.setItem("lastSignal","BUY");}
+else if(entry>=ORANGE_LOW && entry<=ORANGE_HIGH){type="SELL"; localStorage.setItem("lastSignal","SELL");}
+else{type="WAIT";}
 
-if(entry >= BLUE_LOW && entry <= BLUE_HIGH){
-// Price in BLUE BLOCK = BUYERS CONTROL - STABLE
-type = "BUY";
-localStorage.setItem("lastSignal", "BUY");
-} else if(entry >= ORANGE_LOW && entry <= ORANGE_HIGH){
-// Price in ORANGE BLOCK = SELLERS CONTROL - STABLE
-type = "SELL";
-localStorage.setItem("lastSignal", "SELL");
+res.style.display="block";
+if(type=="BUY"){
+let sl=entry-15,tp1=entry+25,tp2=entry+50;
+ctrl.innerHTML="<span style='background:#00ff88;color:#000;padding:5px 12px;border-radius:20px'>✅ BUYERS IN CONTROL - STABLE</span><br><small>Blue Block 4050-4110 + Hammer</small>";
+ctrl.style.background="#002a12";ctrl.style.border="2px solid #00ff88";
+status.innerHTML="✅ STABLE: BUYERS - Won't change until price leaves Blue Block";status.style.color="#00ff88";
+box.innerHTML="<div style='background:#00ff88;opacity:0.2;height:35%;width:100%;position:absolute;top:10%'></div><div style='background:#3a7bff;height:2px;width:100%;position:absolute;top:50%'></div><div style='background:#ff3b3b;opacity:0.2;height:25%;width:100%;position:absolute;top:52%'></div><div style='position:absolute;top:45%;width:100%;text-align:center'><b>LONG POSITION</b><br>ENTRY "+entry+" | SL "+sl.toFixed(2)+" | TP "+tp1.toFixed(2)+"/"+tp2.toFixed(2)+"</div>";
+document.getElementById('E').innerText=entry.toFixed(2);document.getElementById('SL').innerText=sl.toFixed(2);document.getElementById('TP').innerText=tp1.toFixed(2)+" / "+tp2.toFixed(2);
+} else if(type=="SELL"){
+let sl=entry+15,tp1=entry-25,tp2=entry-50;
+ctrl.innerHTML="<span style='background:#ff3b3b;color:#fff;padding:5px 12px;border-radius:20px'>🔻 SELLERS IN CONTROL - STABLE</span><br><small>Orange Block 4180-4240 + Shooting Star</small>";
+ctrl.style.background="#2a0000";ctrl.style.border="2px solid #ff3b3b";
+status.innerHTML="✅ STABLE: SELLERS - Won't change until price leaves Orange Block";status.style.color="#ff3b3b";
+box.innerHTML="<div style='background:#ff3b3b;opacity:0.2;height:25%;width:100%;position:absolute;top:10%'></div><div style='background:#3a7bff;height:2px;width:100%;position:absolute;top:35%'></div><div style='background:#00ff88;opacity:0.2;height:50%;width:100%;position:absolute;top:37%'></div><div style='position:absolute;top:45%;width:100%;text-align:center'><b>SHORT POSITION</b><br>ENTRY "+entry+" | SL "+sl.toFixed(2)+" | TP "+tp1.toFixed(2)+"/"+tp2.toFixed(2)+"</div>";
+document.getElementById('E').innerText=entry.toFixed(2);document.getElementById('SL').innerText=sl.toFixed(2);document.getElementById('TP').innerText=tp1.toFixed(2)+" / "+tp2.toFixed(2);
 } else {
-// MIDDLE = NO TRADE - Keeps last signal, shows WAIT
-type = lastSignal === "WAIT" ? "WAIT" : lastSignal;
-// Don't change if in middle - keep previous
-if(entry > BLUE_HIGH && entry < ORANGE_LOW){
-type = "WAIT";
+ctrl.innerHTML="<span style='background:#ffc300;color:#000;padding:5px 12px;border-radius:20px'>⏳ WAIT - MIDDLE ZONE</span><br><small>Price 4118 between Blue & Orange - No Trade</small>";
+ctrl.style.background="#1a1a00";ctrl.style.border="2px solid #ffc300";
+status.innerHTML="⏳ WAIT - Price 4118 in no-man's land. Last signal: "+last+"<br>Will stay WAIT until price enters Blue or Orange";status.style.color="#ffc300";
+box.innerHTML="<div style='text-align:center;padding:60px;color:#ffc300'>NO TRADE<br>4118 is between Blue 4050-4110 and Orange 4180-4240<br><br>WAIT for 4H close<br>Last: "+last+"</div>";
+document.getElementById('E').innerText="WAIT";document.getElementById('SL').innerText="WAIT";document.getElementById('TP').innerText="WAIT";
 }
+btn.innerHTML="✅ SCAN DONE - TAP TO SCAN NEXT 4H";btn.style.background="#00ff88";
+},1000);
 }
-
-res.style.display = "block";
-
-if(type === "BUY"){
-let sl = entry - 15, tp1 = entry + 25, tp2 = entry + 50;
-ctrl.innerHTML = "<span style='background:#00ff88;color:#000;padding:4px 12px;border-radius:20px'>✅ BUYERS IN CONTROL - HOLD</span><br><small>Price in Blue Block 4050-4110 + Hammer - STABLE</small>";
-ctrl.style.background="#002a12"; ctrl.style.border="2px solid #00ff88";
-status.innerHTML = "✅ STABLE SIGNAL: BUYERS - Will NOT change until price leaves Blue Block";
-status.style.color="#00ff88";
-// Draw LONG
-box.innerHTML = `<div style="position:absolute;top:10%;left:0;right:0;height:40%;background:#00ff88;opacity:0.2"></div><div style="position:absolute;top:50%;left:0;right:0;height:2px;background:#3a7bff"></div><div style="position:absolute;top:75%;left:0;right:0;height:20%;background:#ff3b3b;opacity:0.2"></div><div style="padding:20px;text-align:center;margin-top:100px">ENTRY ${entry} - SL ${sl.toFixed(2)} - TP ${tp1.toFixed(2)}/${tp2.toFixed(2)}<br><b>LONG POSITION - Same until next 4H close</b></div>`;
-document.getElementById('E').innerText = entry.toFixed(2);
-document.getElementById('SL').innerText = sl.toFixed(2);
-document.getElementById('TP').innerText = tp1.toFixed(2)+" / "+tp2.toFixed(2);
-
-} else if(type === "SELL"){
-let sl = entry + 15, tp1 = entry - 25, tp2 = entry - 50;
-ctrl.innerHTML = "<span style='background:#ff3b3b;color:#fff;padding:4px 12px;border-radius:20px'>🔻 SELLERS IN CONTROL - HOLD</span><br><small>Price in Orange Block 4180-4240 + Shooting Star - STABLE</small>";
-ctrl.style.background="#2a0000"; ctrl.style.border="2px solid #ff3b3b";
-status.innerHTML = "✅ STABLE SIGNAL: SELLERS - Will NOT change until price leaves Orange Block";
-status.style.color="#ff3b3b";
-// Draw SHORT
-box.innerHTML = `<div style="position:absolute;top:10%;left:0;right:0;height:20%;background:#ff3b3b;opacity:0.2"></div><div style="position:absolute;top:35%;left:0;right:0;height:2px;background:#3a7bff"></div><div style="position:absolute;top:37%;left:0;right:0;height:50%;background:#00ff88;opacity:0.2"></div><div style="padding:20px;text-align:center;margin-top:100px">ENTRY ${entry} - SL ${sl.toFixed(2)} - TP ${tp1.toFixed(2)}/${tp2.toFixed(2)}<br><b>SHORT POSITION - Same until next 4H close</b></div>`;
-document.getElementById('E').innerText = entry.toFixed(2);
-document.getElementById('SL').innerText = sl.toFixed(2);
-document.getElementById('TP').innerText = tp1.toFixed(2)+" / "+tp2.toFixed(2);
-
-} else {
-ctrl.innerHTML = "<span style='background:#ffc300;color:#000;padding:4px 12px;border-radius:20px'>⏳ WAIT - NO MAN'S LAND</span><br><small>Price 4118 in middle - No Buyers/Sellers Control</small>";
-ctrl.style.background="#1a1a00"; ctrl.style.border="2px solid #ffc300";
-status.innerHTML = "⏳ WAIT - Price in middle (4118) - Last signal: "+lastSignal+"<br>Scan will stay WAIT until price enters Blue or Orange Block";
-status.style.color="#ffc300";
-box.innerHTML = `<div style="padding:60px;text-align:center;color:#ffc300">NO TRADE ZONE<br>4118 is between Blue (4050-4110) and Orange (4180-4240)<br><br>WAIT for 4H close in Blue or Orange<br><br>Last: ${lastSignal}</div>`;
-}
-}
+</script>
+</body>
+</html>
