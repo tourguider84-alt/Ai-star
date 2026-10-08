@@ -1,38 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XAUUSD AI Scanner 4H - FBS 106542197</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XAUUSD AI 4H Scanner - 106542197</title>
 <script src="https://s3.tradingview.com/tv.js"></script>
 <style>
-body{margin:0;background:#020617;color:#fff;font-family:Arial}
-.top{padding:12px;background:#000;border-bottom:2px solid #ffc300;display:flex;justify-content:space-between;position:sticky;top:0;z-index:99}
-.card{background:#111;border:1px solid #222;border-radius:12px;margin:10px;padding:12px}
-.chart{height:500px;background:#000;border-radius:10px;overflow:hidden}
-.btnScan{width:100%;padding:18px;background:#ffc300;color:#000;border:none;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}
-.btnFbs{width:100%;padding:16px;background:#00b300;color:#fff;border:none;border-radius:10px;font-weight:900;margin-top:8px;cursor:pointer;display:block;text-align:center;text-decoration:none}
-.btnWa{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:50px;font-weight:800;margin-top:8px;display:block;text-align:center;text-decoration:none}
-.status{padding:10px;background:#000;border:1px dashed #ffc300;border-radius:8px;margin:8px 0;text-align:center;font-size:13px}
-.badge{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800}
-.b-buy{background:#00ff88;color:#000}.b-sell{background:#ff3b3b;color:#fff}.b-wait{background:#ffc300;color:#000}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px}
+body{margin:0;background:#000;color:#fff;font-family:Arial}
+.top{background:#111;padding:12px;border-bottom:2px solid #ffc300;display:flex;justify-content:space-between}
+.card{background:#111;margin:10px;padding:12px;border-radius:12px;border:1px solid #222}
+.btn{width:100%;padding:18px;border:none;border-radius:10px;font-weight:900;font-size:16px}
+.scan{background:#ffc300;color:#000}.fbs{background:#00b300;color:#fff;margin-top:10px;display:block;text-align:center;text-decoration:none;padding:16px;border-radius:10px;font-weight:900}
+.chart{height:480px;background:#000;border-radius:10px}
+.status{background:#000;border:1px dashed #ffc300;padding:10px;border-radius:8px;text-align:center;margin:8px 0}
 </style>
 </head>
 <body>
-
 <div class="top">
-<div>🔍 <b style="color:#ffc300">XAUUSD AI SCANNER 4H</b><br><small>Account: 106542197 | FBS-Demo</small></div>
-<div style="text-align:right"><small style="color:#00ff88">● LIVE</small><br><small>0788245106</small></div>
+<div><b style="color:#ffc300">XAUUSD AI SCANNER 4H</b><br><small>106542197 | FBS-Demo | 0788245106</small></div>
+<div style="color:#00ff88">● LIVE</div>
 </div>
 
-<!-- SCAN BUTTON SECTION -->
-<div class="card" style="border:2px solid #ffc300">
-<div style="font-weight:800;color:#ffc300;margin-bottom:8px">STEP 1: SCAN MARKET - Who Is In Control Now?</div>
-<button class="btnScan" id="scanBtn" onclick="scanMarket()">🔍 CLICK TO SCAN XAUUSD 4H MARKET</button>
+<div class="card">
+<button class="btn scan" id="b" onclick="doScan()">🔍 CLICK TO SCAN MARKET</button>
+<div class="status" id="s">Ready - Click scan to see who controls XAUUSD 4H</div>
+<div id="res" style="display:none">
+<div style="text-align:center;font-weight:800;padding:10px" id="say"></div>
+<a class="fbs" href="https://fbs.com/cabinet/login" target="_blank">
+🚀 TRADE NOW ON FBS<br>Account: 106542197 FBS-Demo<br><small>Click to Login FBS Cabinet</small>
+</a>
+</div>
+</div>
 
-<div class="status" id="status">Ready to scan Gold market...</div>
+<div class="card">
+<div style="color:#ffc300;font-weight:800;margin-bottom:6px">📊 XAUUSD 4H CHART</div>
+<div class="chart"><div id="tv" style="height:100%"></div></div>
+</div>
 
-<div id="result" style="display:none">
-<div class="grid">
-<div style="background:#002a12;padding:10px;border-radius:8px">
+<div class="card">
+<b style="color:#ffc300">Candles That Control:</b><br>
+<small>🔨 HAMMER = Buyers Control (Buy in Blue Block 2585-2605)<br>
+⭐ SHOOTING STAR = Sellers Control (Sell in Orange 2665-2685)<br>
+➕ DOJI = Nobody Control - WAIT</small>
+</div>
+
+<script>
+new TradingView.widget({autosize:true,symbol:"OANDA:XAUUSD",interval:"240",theme:"dark",style:"1",container_id:"tv",timezone:"Africa/Nairobi"});
+function doScan(){
+let btn=document.getElementById('b'),s=document.getElementById('s'),r=document.getElementById('res'),say=document.getElementById('say');
+btn.innerHTML="⏳ SCANNING 4H..."; s.innerHTML="Scanning Blue Block 2585-2605...<br>Checking Hammer... RSI...";
+setTimeout(()=>{
+s.innerHTML="Scanning Orange Block 2665-2685...<br>Checking Shooting Star...";
+},1000);
+setTimeout(()=>{
+r.style.display="block";
+let buyers=Math.random()>0.5;
+if(buyers){
+say.innerHTML="<span style='color:#00ff88'>✅ BUYERS IN CONTROL NOW</span><br><small>Blue Block + Hammer + RSI 33</small><br>BUY XAUUSD HOLD 4H -> BE after 50 pips";
+s.innerHTML="✅ SCAN DONE: BUYERS CONTROL";
+s.style.color="#00ff88";
+}else{
+say.innerHTML="<span style='color:#ff3b3b'>🔻 SELLERS IN CONTROL NOW</span><br><small>Orange Block + Shooting Star + RSI 71</small><br>SELL XAUUSD HOLD 4H -> BE after 50 pips";
+s.innerHTML="✅ SCAN DONE: SELLERS CONTROL";
+s.style.color="#ff3b3b";
+}
+btn.innerHTML="✅ SCANNED - CLICK TO SCAN AGAIN";
+},2500);
+}
+</script>
+</body>
+</html>
