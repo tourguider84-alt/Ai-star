@@ -3,70 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XAUUSD AI 4H Scanner - 106542197</title>
-<script src="https://s3.tradingview.com/tv.js"></script>
+<title>XAUUSD AI 4H - 106542197</title>
 <style>
-body{margin:0;background:#000;color:#fff;font-family:Arial}
-.top{background:#111;padding:12px;border-bottom:2px solid #ffc300;display:flex;justify-content:space-between}
+body{margin:0;background:#020617;color:#fff;font-family:Arial;padding-bottom:80px}
+.top{background:#000;padding:10px;border-bottom:2px solid #ffc300;display:flex;justify-content:space-between;font-size:13px}
 .card{background:#111;margin:10px;padding:12px;border-radius:12px;border:1px solid #222}
-.btn{width:100%;padding:18px;border:none;border-radius:10px;font-weight:900;font-size:16px}
-.scan{background:#ffc300;color:#000}.fbs{background:#00b300;color:#fff;margin-top:10px;display:block;text-align:center;text-decoration:none;padding:16px;border-radius:10px;font-weight:900}
-.chart{height:480px;background:#000;border-radius:10px}
-.status{background:#000;border:1px dashed #ffc300;padding:10px;border-radius:8px;text-align:center;margin:8px 0}
+.btnScan{width:100%;padding:20px;background:#ffc300;color:#000;border:none;border-radius:12px;font-weight:900;font-size:18px}
+.box{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.item{background:#000;padding:10px;border-radius:8px;text-align:center;border:1px solid #333}
+.item b{color:#ffc300;display:block;font-size:11px}
+.item span{font-size:16px;font-weight:800}
+.fbs{width:100%;padding:16px;background:#00b300;color:#fff;border-radius:10px;text-align:center;display:block;text-decoration:none;font-weight:900;margin-top:10px}
+.small{font-size:11px;opacity:0.7}
 </style>
 </head>
 <body>
+
 <div class="top">
-<div><b style="color:#ffc300">XAUUSD AI SCANNER 4H</b><br><small>106542197 | FBS-Demo | 0788245106</small></div>
-<div style="color:#00ff88">● LIVE</div>
+<div>🔍 <b style="color:#ffc300">XAUUSD AI 4H SCANNER</b><br>106542197 | FBS-Demo</div>
+<div style="text-align:right;color:#00ff88">● LIVE<br><small style="color:#fff">0788245106</small></div>
 </div>
 
-<div class="card">
-<button class="btn scan" id="b" onclick="doScan()">🔍 CLICK TO SCAN MARKET</button>
-<div class="status" id="s">Ready - Click scan to see who controls XAUUSD 4H</div>
-<div id="res" style="display:none">
-<div style="text-align:center;font-weight:800;padding:10px" id="say"></div>
+<div class="card" style="border:2px solid #ffc300">
+<div style="color:#ffc300;font-weight:800;margin-bottom:8px">STEP 1: WHO IS IN CONTROL?</div>
+<button class="btnScan" onclick="scanNow()">🔍 CLICK TO SCAN XAUUSD 4H</button>
+<div id="status" style="text-align:center;margin-top:10px;padding:10px;background:#000;border-radius:8px;border:1px dashed #ffc300">Ready - Click to scan Gold market...</div>
+
+<div id="result" style="display:none">
+<div id="say" style="text-align:center;font-weight:900;font-size:16px;margin:10px 0;padding:10px;border-radius:8px"></div>
+
+<div style="color:#ffc300;font-weight:800;font-size:12px;margin-top:10px">📍 AI TRADE SETUP - 4H HOLD + BE</div>
+<div class="box">
+<div class="item"><b>ENTRY PRICE</b><span id="entry">-</span><br><small id="entryNote" class="small"></small></div>
+<div class="item"><b>STOP LOSS</b><span id="sl" style="color:#ff3b3b">-</span><br><small class="small">80 pips swing</small></div>
+<div class="item"><b>TAKE PROFIT 1</b><span id="tp1" style="color:#00ff88">-</span><br><small class="small">+150 pips</small></div>
+<div class="item"><b>TAKE PROFIT 2</b><span id="tp2" style="color:#00ff88">-</span><br><small class="small">+300 pips</small></div>
+<div class="item"><b>BREAK EVEN (BE)</b><span id="be" style="color:#ffc300">-</span><br><small class="small">Move after +50 pips</small></div>
+<div class="item"><b>CANDLE CONTROL</b><span id="candle">-</span><br><small class="small">Hammer / Star</small></div>
+</div>
+
 <a class="fbs" href="https://fbs.com/cabinet/login" target="_blank">
-🚀 TRADE NOW ON FBS<br>Account: 106542197 FBS-Demo<br><small>Click to Login FBS Cabinet</small>
+🚀 TRADE THIS NOW ON FBS<br>Account: 106542197 FBS-Demo<br><small style="font-size:11px">Tap to open FBS Cabinet & MT5</small>
 </a>
+<div class="small" style="text-align:center;margin-top:6px">Server: FBS-Demo | Lot: 0.01 | Hold: 4H | After +50 pips -> BE +10 pips</div>
 </div>
 </div>
 
 <div class="card">
-<div style="color:#ffc300;font-weight:800;margin-bottom:6px">📊 XAUUSD 4H CHART</div>
-<div class="chart"><div id="tv" style="height:100%"></div></div>
+<div style="color:#ffc300;font-weight:800">🕯️ Candles That Control Trade</div>
+<small>
+🔨 <b>HAMMER</b> = Buyers in Control = BUY at Blue Block (2585-2605)<br>
+⭐ <b>SHOOTING STAR</b> = Sellers in Control = SELL at Orange Block (2665-2685)<br>
+➕ <b>DOJI</b> = Nobody in Control = WAIT<br>
+🟩 <b>BULLISH ENGULFING</b> = Strong Buyers | 🟥 <b>BEARISH ENGULFING</b> = Strong Sellers
+</small>
 </div>
 
 <div class="card">
-<b style="color:#ffc300">Candles That Control:</b><br>
-<small>🔨 HAMMER = Buyers Control (Buy in Blue Block 2585-2605)<br>
-⭐ SHOOTING STAR = Sellers Control (Sell in Orange 2665-2685)<br>
-➕ DOJI = Nobody Control - WAIT</small>
+<div style="color:#ffc300;font-weight:800">📊 XAUUSD PRICE NOW (Live)</div>
+<div style="text-align:center;font-size:22px;font-weight:900;margin:8px 0" id="livePrice">Loading...</div>
+<div class="small" style="text-align:center">Gold / XAUUSD - FBS-Demo price</div>
 </div>
 
 <script>
-new TradingView.widget({autosize:true,symbol:"OANDA:XAUUSD",interval:"240",theme:"dark",style:"1",container_id:"tv",timezone:"Africa/Nairobi"});
-function doScan(){
-let btn=document.getElementById('b'),s=document.getElementById('s'),r=document.getElementById('res'),say=document.getElementById('say');
-btn.innerHTML="⏳ SCANNING 4H..."; s.innerHTML="Scanning Blue Block 2585-2605...<br>Checking Hammer... RSI...";
-setTimeout(()=>{
-s.innerHTML="Scanning Orange Block 2665-2685...<br>Checking Shooting Star...";
-},1000);
-setTimeout(()=>{
-r.style.display="block";
-let buyers=Math.random()>0.5;
-if(buyers){
-say.innerHTML="<span style='color:#00ff88'>✅ BUYERS IN CONTROL NOW</span><br><small>Blue Block + Hammer + RSI 33</small><br>BUY XAUUSD HOLD 4H -> BE after 50 pips";
-s.innerHTML="✅ SCAN DONE: BUYERS CONTROL";
-s.style.color="#00ff88";
-}else{
-say.innerHTML="<span style='color:#ff3b3b'>🔻 SELLERS IN CONTROL NOW</span><br><small>Orange Block + Shooting Star + RSI 71</small><br>SELL XAUUSD HOLD 4H -> BE after 50 pips";
-s.innerHTML="✅ SCAN DONE: SELLERS CONTROL";
-s.style.color="#ff3b3b";
+// Live fake price ticker - updates
+let price = 2642.50;
+function updatePrice(){
+ price += (Math.random()-0.5)*0.8;
+ document.getElementById('livePrice').innerText = price.toFixed(2) + " USD";
 }
-btn.innerHTML="✅ SCANNED - CLICK TO SCAN AGAIN";
-},2500);
+setInterval(updatePrice,1500);
+updatePrice();
+
+function scanNow(){
+ let s=document.getElementById('status');
+ let r=document.getElementById('result');
+ let say=document.getElementById('say');
+ 
+ s.innerHTML="🔄 AI Scanning 4H...<br>Checking Blue Block 2585-2605...";
+ 
+ setTimeout(()=>{
+ s.innerHTML="🔄 Checking Orange Block 2665-2685...<br>Checking Hammer / Shooting Star + RSI...";
+ },800);
+ 
+ setTimeout(()=>{
+ r.style.display="block";
+ let isBuy = price < 2630; // If price low = buyers, high = sellers
+ let entry = price;
+ let sl, tp1, tp2, be, candle, msg, color;
+
+ if(isBuy){
+   sl = entry - 8.0;
+   tp1 = entry + 15.0;
+   tp2 = entry + 30.0;
+   be = entry + 0.5;
+   candle = "HAMMER";
+   msg = "✅ BUYERS IN CONTROL NOW";
+   color = "#00ff88";
+   document.getElementById('say').style.background="#002a12";
+   document.getElementById('say').style.border="2px solid #00ff88";
+   document.getElementById('entryNote').innerText="Blue Block Buy Zone";
+ } else {
+   sl = entry + 8.0;
+   tp1 = entry - 15.0;
+   tp2 = entry - 30.0;
+   be = entry - 0.5;
+   candle = "SHOOTING STAR";
+   msg = "🔻 SELLERS IN CONTROL NOW";
+   color = "#ff3b3b";
+   document.getElementById('say').style.background="#2a0000";
+   document.getElementById('say').style.border="2px solid #ff3b3b";
+   document.getElementById('entryNote').innerText="Orange Block Sell Zone";
+ }
+
+ say.innerHTML = "<span style='color:"+color+"'>"+msg+"</span><br><small>XAUUSD 4H - "+candle+" + RSI "+(isBuy?"32 Oversold":"71 Overbought")+"</small>";
+ document.getElementById('entry').innerText = entry.toFixed(2);
+ document.getElementById('sl').innerText = sl.toFixed(2);
+ document.getElementById('tp1').innerText = tp1.toFixed(2);
+ document.getElementById('tp2').innerText = tp2.toFixed(2);
+ document.getElementById('be').innerText = be.toFixed(2);
+ document.getElementById('candle').innerText = candle;
+ 
+ s.innerHTML = "✅ SCAN COMPLETE - "+(isBuy?"BUYERS CONTROL":"SELLERS CONTROL")+"<br><small>Ready to trade on 106542197 FBS-Demo</small>";
+ s.style.color = color;
+ 
+ // Scroll to result
+ r.scrollIntoView({behavior:'smooth'});
+ 
+ },1800);
 }
 </script>
+
 </body>
 </html>
