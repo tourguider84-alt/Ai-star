@@ -1,132 +1,38 @@
-//+------------------------------------------------------------------+
-//| XAUUSD AI Scanner 4H - FBS-Demo 106542197 |
-//| AI Scans Market, Holds Swing 4H, Moves to BE + Trailing |
-//| Forex Only: XAUUSD - Based on your 85,644 Order Block style |
-//+------------------------------------------------------------------+
-#property strict
-#property description "AI scans XAUUSD 4H - Hammer/ShootingStar + Order Block + RSI"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XAUUSD AI Scanner 4H - FBS 106542197</title>
+<script src="https://s3.tradingview.com/tv.js"></script>
+<style>
+body{margin:0;background:#020617;color:#fff;font-family:Arial}
+.top{padding:12px;background:#000;border-bottom:2px solid #ffc300;display:flex;justify-content:space-between;position:sticky;top:0;z-index:99}
+.card{background:#111;border:1px solid #222;border-radius:12px;margin:10px;padding:12px}
+.chart{height:500px;background:#000;border-radius:10px;overflow:hidden}
+.btnScan{width:100%;padding:18px;background:#ffc300;color:#000;border:none;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}
+.btnFbs{width:100%;padding:16px;background:#00b300;color:#fff;border:none;border-radius:10px;font-weight:900;margin-top:8px;cursor:pointer;display:block;text-align:center;text-decoration:none}
+.btnWa{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:50px;font-weight:800;margin-top:8px;display:block;text-align:center;text-decoration:none}
+.status{padding:10px;background:#000;border:1px dashed #ffc300;border-radius:8px;margin:8px 0;text-align:center;font-size:13px}
+.badge{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800}
+.b-buy{background:#00ff88;color:#000}.b-sell{background:#ff3b3b;color:#fff}.b-wait{background:#ffc300;color:#000}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px}
+</style>
+</head>
+<body>
 
-input string InpSymbol = "XAUUSD"; // Forex Only - Gold
-input ENUM_TIMEFRAMES InpTF = PERIOD_H4; // You hold TMF BE 4HR
-input double LotSize = 0.01; // For FBS Demo 106542197
-input int MagicNumber = 106542197;
+<div class="top">
+<div>🔍 <b style="color:#ffc300">XAUUSD AI SCANNER 4H</b><br><small>Account: 106542197 | FBS-Demo</small></div>
+<div style="text-align:right"><small style="color:#00ff88">● LIVE</small><br><small>0788245106</small></div>
+</div>
 
-input int RSIPeriod = 14;
-input int RSI_OB = 70;
-input int RSI_OS = 30;
+<!-- SCAN BUTTON SECTION -->
+<div class="card" style="border:2px solid #ffc300">
+<div style="font-weight:800;color:#ffc300;margin-bottom:8px">STEP 1: SCAN MARKET - Who Is In Control Now?</div>
+<button class="btnScan" id="scanBtn" onclick="scanMarket()">🔍 CLICK TO SCAN XAUUSD 4H MARKET</button>
 
-input double BuyZone_High = 2605.00; // Update to your current Blue Block for Gold
-input double BuyZone_Low = 2585.00;
-input double SellZone_High= 2685.00; // Update to your current Orange Block for Gold
-input double SellZone_Low = 2665.00;
+<div class="status" id="status">Ready to scan Gold market...</div>
 
-input int StopLoss_Points = 1000; // 100 pips for XAUUSD swing
-input int TakeProfit_Points = 2000; // 200 pips
-input int BE_Trigger_Points = 500; // Move to Break Even after +50 pips
-input int BE_Plus_Points = 100; // BE + 10 pips profit
-input int Trailing_Points = 300; // Trail after BE
-
-int rsi_handle;
-int ma_handle;
-
-//+------------------------------------------------------------------+
-int OnInit(){
-  if(_Symbol!= "XAUUSD" && _Symbol!= "GOLD" && StringFind(_Symbol,"XAU")<0){
-    Print("This AI is for XAUUSD only! Current: ",_Symbol);
-  }
-  rsi_handle = iRSI(InpSymbol, InpTF, RSIPeriod, PRICE_CLOSE);
-  ma_handle = iMA(InpSymbol, InpTF, 50, 0, MODE_EMA, PRICE_CLOSE);
-  Print("XAUUSD AI Scanner 4H Started - FBS-Demo 106542197 - Scanning ",InpSymbol," ",EnumToString(InpTF));
-  return(INIT_SUCCEEDED);
-}
-
-// Candle Pattern AI
-bool IsHammer_XAU(int shift){
-  double o=iOpen(InpSymbol,InpTF,shift), c=iClose(InpSymbol,InpTF,shift);
-  double h=iHigh(InpSymbol,InpTF,shift), l=iLow(InpSymbol,InpTF,shift);
-  double body=MathAbs(c-o); if(body==0) body=1;
-  double lower=MathMin(o,c)-l, upper=h-MathMax(o,c);
-  return(lower > body*2.0 && upper < body*0.6 && c>o);
-}
-bool IsShootingStar_XAU(int shift){
-  double o=iOpen(InpSymbol,InpTF,shift), c=iClose(InpSymbol,InpTF,shift);
-  double h=iHigh(InpSymbol,InpTF,shift), l=iLow(InpSymbol,InpTF,shift);
-  double body=MathAbs(c-o); if(body==0) body=1;
-  double lower=MathMin(o,c)-l, upper=h-MathMax(o,c);
-  return(upper > body*2.0 && lower < body*0.6 && c<o);
-}
-bool IsBullishEngulfing(){
-  double o1=iOpen(InpSymbol,InpTF,1), c1=iClose(InpSymbol,InpTF,1);
-  double o2=iOpen(InpSymbol,InpTF,2), c2=iClose(InpSymbol,InpTF,2);
-  return(c2<o2 && c1>o1 && c1>o2 && o1<c2); // Big green eats small red
-}
-bool IsBearishEngulfing(){
-  double o1=iOpen(InpSymbol,InpTF,1), c1=iClose(InpSymbol,InpTF,1);
-  double o2=iOpen(InpSymbol,InpTF,2), c2=iClose(InpSymbol,InpTF,2);
-  return(c2>o2 && c1<o1 && c1<o2 && o1>c2);
-}
-
-//+------------------------------------------------------------------+
-void OnTick(){
-  // AI Manage existing trade - BE + Trail
-  Manage_BE_Trail();
-  if(PositionsTotal()>=1) return; // Hold one swing only - you hold 4H
-
-  double price = iClose(InpSymbol, InpTF, 1);
-  double rsi_buf[]; CopyBuffer(rsi_handle,0,1,1,rsi_buf); double rsi=rsi_buf[0];
-  double ma_buf[]; CopyBuffer(ma_handle,0,1,1,ma_buf); double ema50=ma_buf[0];
-
-  // AI SCAN LOGIC - Like your screenshot 85,644
-  bool buyers_control = false, sellers_control = false;
-  string reason="";
-
-  // BUYERS CONTROL SCAN (For RISE Swing)
-  if( (price>=BuyZone_Low && price<=BuyZone_High) && (IsHammer_XAU(1) || IsBullishEngulfing()) && rsi<35 && price>ema50 ){
-    buyers_control=true; reason="AI SCAN: Buyers Control - Blue Block + Hammer + RSI "+DoubleToString(rsi,1);
-  }
-  // SELLERS CONTROL SCAN (For FALL Swing)
-  if( (price>=SellZone_Low && price<=SellZone_High) && (IsShootingStar_XAU(1) || IsBearishEngulfing()) && rsi>65 && price<ema50 ){
-    sellers_control=true; reason="AI SCAN: Sellers Control - Orange Block + Shooting Star + RSI "+DoubleToString(rsi,1);
-  }
-
-  if(buyers_control){
-    double ask=SymbolInfoDouble(InpSymbol,SYMBOL_ASK);
-    double sl=ask-StopLoss_Points*_Point*10;
-    double tp=ask+TakeProfit_Points*_Point*10;
-    OpenTrade(ORDER_TYPE_BUY, ask, sl, tp, reason);
-  }
-  if(sellers_control){
-    double bid=SymbolInfoDouble(InpSymbol,SYMBOL_BID);
-    double sl=bid+StopLoss_Points*_Point*10;
-    double tp=bid-TakeProfit_Points*_Point*10;
-    OpenTrade(ORDER_TYPE_SELL, bid, sl, tp, reason);
-  }
-}
-
-//+------------------------------------------------------------------+
-void Manage_BE_Trail(){
-  for(int i=PositionsTotal()-1;i>=0;i--){
-    ulong ticket=PositionGetTicket(i);
-    if(!PositionSelectByTicket(ticket)) continue;
-    if(PositionGetInteger(POSITION_MAGIC)!=MagicNumber) continue;
-
-    double open_price=PositionGetDouble(POSITION_PRICE_OPEN);
-    double curr_sl=PositionGetDouble(POSITION_SL);
-    double price_current=PositionGetDouble(POSITION_PRICE_CURRENT);
-    ENUM_POSITION_TYPE type=(ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
-
-    // Move to BE
-    if(type==POSITION_TYPE_BUY){
-      if(price_current >= open_price + BE_Trigger_Points*_Point*10){
-        double new_sl = open_price + BE_Plus_Points*_Point*10;
-        if(curr_sl < new_sl || curr_sl==0) ModifySL(ticket,new_sl);
-      }
-      // Trailing
-      if(price_current >= open_price + (BE_Trigger_Points+Trailing_Points)*_Point*10){
-        double new_sl = price_current - Trailing_Points*_Point*10;
-        if(new_sl > curr_sl) ModifySL(ticket,new_sl);
-      }
-    }
-    if(type==POSITION_TYPE_SELL){
-      if(price_current <= open_price - BE_Trigger_Points*_Point*10){
-        double new_sl = open_price - BE_Plus_Points
+<div id="result" style="display:none">
+<div class="grid">
+<div style="background:#002a12;padding:10px;border-radius:8px">
